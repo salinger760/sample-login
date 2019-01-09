@@ -20,7 +20,7 @@
 
 <script>
 import Axios from 'axios'
-import jwt from 'jsonwebtoken'
+import {jwt} from 'jsonwebtoken'
 import router from '../router/index.js'
 
 export default {
@@ -80,7 +80,7 @@ export default {
       const secretToken = 'oreore'
 
       // JWTのヘッダー
-      const oHeader = {alg: 'HS256', typ: 'JWT'}
+      //const oHeader = {alg: 'HS256', typ: 'JWT'}
 
       // JWTペイロード
       let offset = Math.floor(Math.random() * Math.floor(25))
@@ -96,7 +96,7 @@ export default {
       var oPayload = {username: username, until: dStr}
       console.log(oHeader, oPayload)
       // JWTを生成
-      var sJWT = jwt.sign({ foo: 'bar' }, secretToken, { algorithm: 'HS256'});
+      var sJWT = jwt.sign(oPayload, secretToken, { algorithm: 'HS256'});
       // var sJWT = KJUR.jws.JWS.sign('HS256', JSON.stringify(oHeader), JSON.stringify(oPayload), secretToken)
       console.log(sJWT)
       return sJWT
