@@ -33,7 +33,7 @@ def auth():
   try:
     with conn.cursor() as cursor:
       sql = "SELECT user_id, name FROM users WHERE user_id = %s"
-      cursor.execute(sql, ('1',))
+      cursor.execute(sql, ('1'))
       rows = cursor.fetchall()
       print(rows)
   finally:
