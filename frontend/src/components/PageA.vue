@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import {jwt} from 'jsonwebtoken'
-import route from '../router/index.js'
+import jwt from 'jsonwebtoken'
+import router from '../router/index.js'
 
 export default {
   name: 'PageA',
@@ -19,7 +19,7 @@ export default {
     ck.forEach(function(value){
       const content = value.split('=')
       if(content[0] === 'token'){
-        sJWT = component[1]
+        sJWT = content[1]
       }
     })
 
@@ -48,6 +48,7 @@ export default {
   },
   computed: {
     until: function () {
+      const secretToken = 'oreore'
       let sJWT = ''
       const ck = document.cookie.split(';')
       ck.forEach(function (value) {
@@ -59,7 +60,7 @@ export default {
       })
       console.log(sJWT)
       if (sJWT.length > 0) {
-        jwt.verify(sJWT, secretToken, { algorithm: 'HS256'})
+        let decoded = jwt.verify(sJWT, secretToken, { algorithm: 'HS256'})
         const payload = decoded
         return new Date(payload.until)
       }

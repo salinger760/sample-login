@@ -20,7 +20,7 @@
 
 <script>
 import Axios from 'axios'
-import {jwt} from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import router from '../router/index.js'
 
 export default {
@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     checklogin: function(event){
-      const axios = Axiot.create({
-        baseURL: 'http://localhost:4000',
+      const axios = Axios.create({
+        baseURL: 'http://192.168.33.10:5000',
         header: {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest'
@@ -43,10 +43,11 @@ export default {
       })
 
       // nextページの取得
+      let nextPage = 'PageA'
       try{
-        let nextPage = this.$route.query.next
+        this.nextPage = this.$route.query.next
       }catch(e){
-        nextPage = 'PageA'
+        this.nextPage = 'PageA'
       }
       console.log(nextPage)
 
@@ -68,6 +69,8 @@ export default {
           document.cookie = 'token=' + token
           // 次のページにジャンプ
           // router.push({name: nextPage, params: { auth: 'authenticated' }})
+          console.log("nextPage")
+          console.log(nextPage)
           router.push({name: nextPage})
         } else {
           document.getElementById('loginResult').innerHTML = 'Login Failed !'
@@ -94,7 +97,7 @@ export default {
       var dS = ('0' + DO.getSeconds()).slice(-2)
       var dStr = dY + '/' + dm + '/' + dd + ' ' + dH + ':' + dM + ':' + dS + ' +0900'
       var oPayload = {username: username, until: dStr}
-      console.log(oHeader, oPayload)
+      console.log(oPayload)
       // JWTを生成
       var sJWT = jwt.sign(oPayload, secretToken, { algorithm: 'HS256'});
       // var sJWT = KJUR.jws.JWS.sign('HS256', JSON.stringify(oHeader), JSON.stringify(oPayload), secretToken)
