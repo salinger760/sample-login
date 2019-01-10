@@ -6,19 +6,20 @@ import pymysql.cursors
 logging.getLogger('flask_cors').level = logging.DEBUG
 
 app = Flask(__name__)
-CORS(app, resources={"/auth*": {"origins": "http://localhost:8080"}})
+#CORS(app, resources={"/auth*": {"origins": "http://localhost:8080"}})
+CORS(app)
 
 
 @app.route('/')
 def pong():
-  return 'Pong'
+  return 'Pong!'
 
 
 @app.route('/auth')
 def auth():
   flg = False
   uname = request.args.get('username', '')
-  upass = request.args.get('password', '')
+  upass = request.args.get('password', 'aaaa')
 
 
   conn = pymysql.connect(host='127.0.0.1',
@@ -39,7 +40,12 @@ def auth():
     conn.close()
 
   for row in rows:
-    if upass == row[0]:
+    if upass == row.get('name'):
       return json.dumps({"result": "success"})
 
   return json.dumps({"result": "fail"})
+
+
+
+if __name__ == '__main__':
+  app.run(host='192.168.33.10', port=5000, debug=True)
